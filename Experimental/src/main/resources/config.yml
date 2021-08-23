@@ -1,0 +1,30 @@
+gui:
+  title: "&e&lItem Quality Tagger"
+  layout:
+    - "_________"
+    - "_i_t__Oo_"
+    - "_________"
+  items:
+    "_":
+      material: black_stained_glass_pane
+      name: '&f'
+    "i":
+      type: item
+      material: yellow_stained_glass_pane
+      name: "&eItem"
+      lore:
+        - "&fPut your item there"
+    "t":
+      type: tag
+      material: cyan_stained_glass_pane
+      name: "&eQuality Tag"
+    "o":
+      type: result
+      material: red_stained_glass_pane
+      name: "&eOutput"
+      lore:
+        - "&fThe product will be there"
+    "O":
+      type: confirm
+      material: lime_stained_glass
+      name: '&aConfirm'
