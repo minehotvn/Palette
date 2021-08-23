@@ -1,5 +1,7 @@
 # Palette
 
+[![](https://jitpack.io/v/minehotvn/Palette.svg)](https://jitpack.io/#minehotvn/Palette)
+
 ### Usage
 
 ### Implementation
