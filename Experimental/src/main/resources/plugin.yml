@@ -1,0 +1,4 @@
+name: ExperimentalPalette
+version: '${project.version}'
+main: com.minehot.experimentalpalette.ExperimentalPalette
+description: ExperimentalPalette
