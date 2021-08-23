@@ -124,7 +124,7 @@ public abstract class GUIHandler implements InventoryHolder {
         }
     }
 
-    public abstract void onClick(@NotNull InventoryClickEvent event, @NotNull String slotType);
+    public abstract void onClick(@NotNull InventoryClickEvent event, @Nullable String slotType);
 
     public abstract void onRendered();
 
