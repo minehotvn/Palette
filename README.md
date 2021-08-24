@@ -31,6 +31,8 @@ Relocate packages using the following configuration:
 </configuration>
 ```
 
+API-Version is required in plugin.yml for allowing 1.13+ items to work.
+
 ### Example
 
 Check out the Experimental Palette plugin.
