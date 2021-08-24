@@ -2,6 +2,7 @@ name: ExperimentalPalette
 version: '${project.version}'
 main: com.minehot.experimentalpalette.ExperimentalPalette
 description: ExperimentalPalette
+api-version: "1.13"
 commands:
   ep:
     description: open the GUI
