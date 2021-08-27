@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -70,6 +71,11 @@ public abstract class GUIHandler implements InventoryHolder {
     }
 
     @NotNull
+    public Collection<Integer> getSlotsByType(String type){
+        return slotByTypes.get(type);
+    }
+
+    @NotNull
     public ItemStack getBackupItem(int slot) {
         return backupLayer[slot].build();
     }
@@ -87,13 +93,13 @@ public abstract class GUIHandler implements InventoryHolder {
 
     @Nullable
     public ItemStack collectItem(String slotType) {
-        Iterator<Integer> i = slotByTypes.get(slotType).iterator();
+        Iterator<Integer> i = getSlotsByType(slotType).iterator();
         return i.hasNext() ? getActualItem(i.next()) : null;
     }
 
     @Nullable
     public ItemStack collectPresentItem(String slotType) {
-        return slotByTypes.get(slotType).stream()
+        return getSlotsByType(slotType).stream()
                 .map(this::getActualItem)
                 .filter(item -> !ItemUtil.isEmpty(item))
                 .findFirst().orElse(null);
@@ -101,24 +107,29 @@ public abstract class GUIHandler implements InventoryHolder {
 
     @NotNull
     public List<ItemStack> collectItems(String slotType) {
-        return slotByTypes.get(slotType).stream()
+        return getSlotsByType(slotType).stream()
                 .map(this::getActualItem)
                 .collect(Collectors.toList());
     }
 
-    public void resetItem(String slotType, @NotNull UnaryOperator<PreparedItem> itemConsumer) {
-        resetItem(slotType, itemConsumer, Integer.MAX_VALUE);
+    public int resetItem(String slotType, @NotNull UnaryOperator<PreparedItem> itemConsumer) {
+        return resetItem(slotType, itemConsumer, Integer.MAX_VALUE);
     }
 
     public int resetItem(String slotType, @NotNull UnaryOperator<PreparedItem> itemConsumer, int max) {
-        return (int) slotByTypes.get(slotType).stream().limit(max).peek(i -> {
-            ItemStack item = itemConsumer.apply(backupLayer[i].duplicate()).build();
-            inventory.setItem(i, item);
-        }).count();
+        int i = 0;
+        int j = 0;
+        for(int slot : getSlotsByType(slotType)) {
+            if(i >= max) break;
+            ItemStack item = itemConsumer.apply(backupLayer[slot].duplicate()).build();
+            inventory.setItem(slot, item);
+            j++;
+        }
+        return j;
     }
 
     public void setItemOnce(@NotNull String slotType, @Nullable ItemStack item){
-        Iterator<Integer> i = slotByTypes.get(slotType).iterator();
+        Iterator<Integer> i = getSlotsByType(slotType).iterator();
         if(i.hasNext()) {
             inventory.setItem(i.next(), item);
         }
