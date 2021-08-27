@@ -149,7 +149,9 @@ public abstract class GUIHandler implements InventoryHolder {
 
     public abstract void onClick(@NotNull InventoryClickEvent event, @Nullable String slotType);
 
-    public abstract void onRendered();
+    public void onRendered() { }
+
+    public void onDisplayed(@NotNull HumanEntity player) { }
 
     public boolean canPut(@NotNull String type, @Nullable ItemStack cursor) {
         return true;

@@ -13,6 +13,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.InventoryView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -67,7 +68,10 @@ public class GUIConfig {
         }
         ((Player) player).playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1f, 1f);
         try {
-            player.openInventory(render(guiHandlerClass));
+            InventoryView view = player.openInventory(render(guiHandlerClass));
+            if(view.getTopInventory().getHolder() instanceof GUIHandler) {
+                ((GUIHandler) view.getTopInventory().getHolder()).onDisplayed(player);
+            }
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
