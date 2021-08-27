@@ -128,6 +128,18 @@ public abstract class GUIHandler implements InventoryHolder {
         return j;
     }
 
+    public int resetItem(String slotType, @NotNull SlotDrawer slotDrawer, int max) {
+        int i = 0;
+        int j = 0;
+        for(int slot : getSlotsByType(slotType)) {
+            if(i >= max) break;
+            ItemStack item = slotDrawer.draw(backupLayer[slot].duplicate(), slot).build();
+            inventory.setItem(slot, item);
+            j++;
+        }
+        return j;
+    }
+
     public void setItemOnce(@NotNull String slotType, @Nullable ItemStack item){
         Iterator<Integer> i = getSlotsByType(slotType).iterator();
         if(i.hasNext()) {
