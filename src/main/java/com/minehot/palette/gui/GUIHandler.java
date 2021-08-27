@@ -1,9 +1,9 @@
 package com.minehot.palette.gui;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.minehot.palette.utils.ItemUtil;
 import com.minehot.palette.item.PreparedItem;
+import com.minehot.palette.utils.ItemUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 public abstract class GUIHandler implements InventoryHolder {
     private final List<String> itemHolderSlot = new ArrayList<>();
-    private Multimap<String, Integer> slotByTypes = HashMultimap.create();
+    private Multimap<String, Integer> slotByTypes = LinkedListMultimap.create();
     private Inventory inventory;
     private ItemSlot[] backupLayer;
 
@@ -45,7 +45,7 @@ public abstract class GUIHandler implements InventoryHolder {
 
     public void setBackupLayer(@NotNull ItemSlot[] backupLayer) {
         this.backupLayer = backupLayer;
-        Multimap<String, Integer> map = HashMultimap.create();
+        Multimap<String, Integer> map = LinkedListMultimap.create();
         for(int i = 0; i < backupLayer.length; i++){
             if(backupLayer[i].getType() != null) {
                 map.put(backupLayer[i].getType(), i);
@@ -168,7 +168,7 @@ public abstract class GUIHandler implements InventoryHolder {
     public int findSuitableSlot(@Nullable ItemStack item) {
         for(String s : getItemHolderSlot()) {
             if (canPut(s, item)) {
-                for (int i : slotByTypes.get(s)) {
+                for (int i : getSlotsByType(s)) {
                     if (ItemUtil.isEmpty(getActualItem(i))) {
                         return i;
                     }
